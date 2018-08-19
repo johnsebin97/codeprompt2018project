@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Cool Project</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+</head>
+<body>
+<style>
+    h1{font-size:80px!important;font-family: 'Montserrat', 'Segoe UI',sans-serif;}
+    h2{font-size:60px!important;font-family: 'Montserrat', 'Segoe UI',sans-serif;}
+    h3{font-size:30px!important;font-family: 'Montserrat', 'Segoe UI',sans-serif;}
+    .main{
+        padding: 16px 32px;
+    }
+    .button{
+    /* background-color: #00cb00; Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 6px;
+    }
+</style>
+<br><br>
+
+<div class="container center-align main red lighten-2 white-text">
+    <h1 class="white-text">CodePrompt Project</h1>
+    <form method="POST" class="white-text">
+        {{ form.csrf_token }}
+        {{ form.productName(placeholder="Name of Product")}}
+        {{ form.itemsSold(placeholder="No Of Items Sold") }}
+        {{ form.costPrice(placeholder="Cost Price of Each Item") }}
+        {{ form.sellPrice(placeholder="Selling Price of Each Item") }}
+        {{ form.addButton(class_="button blue lighten-2") }}
+        <br>
+        <div class="left-align">
+            <h10 class="bold">Line Color :</h10>
+            {{ form.lineColor }}
+            <h10 class="bold">Line Type :</h10>
+            {{ form.lineType }}
+        </div>
+        {{ form.finalSubmit(class_="button blue lighten-2") }}
+    </form>
+</div>
+
+<br><br>
+
+<div class="container">
+    <ul class="collapsible popout">
+    {% for day in days %}
+    <li>
+      <div class="collapsible-header blue lighten-3 white-text">Day {{ day[0]}} </div>
+      <div class="collapsible-body green lighten-2 white-text"><p>
+          Items Sold = {{ day[1] }}<br>
+          Cost Price of each Item = {{ day[2] }}<br>
+          Selling Price of each Item = {{ day[3] }}<br>
+          Profit for each Item = {{ day[4] }}<br>
+          Total Profit = {{ day[5] }}<br>
+      </p></div>
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="container">
+    <table>
+    <tr>
+        <th>Day</th>
+        <th>Items Sold</th>
+        <th>Cost Price of Each Item</th>
+        <th>Selling Price of each Item</th>
+        <th>Profit for each Item</th>
+        <th>Total Profit</th>
+    </tr>
+    {% for day in days %}
+    <tr>
+        <td>{{ day[0] }}</td>
+        <td>{{ day[1] }}</td>
+        <td>{{ day[2] }}</td>
+        <td>{{ day[3] }}</td>
+        <td>{{ day[4] }}</td>
+        <td>{{ day[5] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+{{ dates }}
+
+<br><br>
+<div class="container black">
+    <br>
+    <center>
+        <img src="data:image/png;base64,{{ graph }}" style="height:100%;">
+    </center>
+    <br>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+</script>
+</body>
+</html>
