@@ -21,6 +21,8 @@ def getItems(listName, itemNumber):
         temp.append(i[itemNumber])
     return temp
 
+
+
 def enterString(listName, name):
     temp = []
     for i in listName:
@@ -38,9 +40,11 @@ class MainForm(FlaskForm):
     costPrice = StringField('costPrice')
     sellPrice = StringField('sellPrice')
     addButton = SubmitField('Add')
-    lineColor = RadioField('Color of Line', choices=[('r', 'Red'), ('g', 'Green'), ('b', 'Blue')])
-    lineType = RadioField('Type of Line', choices=[('-', 'Solid'), ('--', 'Dashed'), ('-.', 'Dash-Dotted'), (':', 'Dotted')])
+    graphType = RadioField('Type of Graph', choices=[('line', 'Line Graph'), ('bar', 'Bar Graph')], default='line')
+    lineColor = RadioField('Color of Line', choices=[('r', 'Red'), ('g', 'Green'), ('b', 'Blue')], default='r')
+    lineType = RadioField('Type of Line', choices=[('-', 'Solid'), ('--', 'Dashed'), ('-.', 'Dash-Dotted'), (':', 'Dotted')], default='-')
     finalSubmit = SubmitField('Submit')
+    downloadButton = SubmitField('Download')
 
 
 
@@ -58,7 +62,6 @@ def index_post():
         return render_template('index.html', form=form)
     elif request.method == 'POST':
         form = MainForm()
-        day += 1
         if form.validate_on_submit():
             if form.addButton.data:
                 newEntry = []
@@ -82,7 +85,10 @@ def index_post():
                 plt.xlabel("Days")
                 plt.ylabel("Total Profit")
                 plt.title(form.productName.data)
-                plt.plot(dates, profitPlot, color=form.lineColor.data, linestyle=form.lineType.data)
+                if form.graphType.data == 'line':
+                    plt.plot(dates, profitPlot, color=form.lineColor.data, linestyle=form.lineType.data)
+                elif form.graphType.data == 'bar':
+                    plt.bar(dates, profitPlot)
                 from io import BytesIO
                 figfile = BytesIO()
                 plt.savefig(figfile, format='png')
@@ -90,9 +96,9 @@ def index_post():
                 import base64
                 figdata_png = base64.b64encode(figfile.getvalue())
                 return render_template('index.html', form=form, days=allEntries, graph=figdata_png.decode('utf8'))
+            elif form.downloadButton.data:
+                plt.savefig("graph")
         return render_template('index.html', form=form, days=allEntries)
-
-
 
 
 if __name__ == '__main__':

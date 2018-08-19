@@ -41,12 +41,19 @@
         {{ form.addButton(class_="button blue lighten-2") }}
         <br>
         <div class="left-align">
+            <h10>Type of Graph</h10>
+            {{ form.graphType }}
+        </div>
+        <div class="left-align">
             <h10 class="bold">Line Color :</h10>
             {{ form.lineColor }}
             <h10 class="bold">Line Type :</h10>
             {{ form.lineType }}
         </div>
         {{ form.finalSubmit(class_="button blue lighten-2") }}
+        <br>
+        {{ form.downloadButton(class_="button blue lighten-2") }}
+        <a href="data:image/png;base64,{{ graph }}" download="data:image/png;base64,{{ graph }}" class="btn btn-large blue">Download</a>
     </form>
 </div>
 
@@ -98,9 +105,14 @@
 <div class="container black">
     <br>
     <center>
-        <img src="data:image/png;base64,{{ graph }}" style="height:100%;">
+        <img src="data:image/png;base64,{{ graph }}" style="height:100%;" class="materialboxed">
     </center>
     <br>
+</div>
+
+<div class="container center-align blue lighten-2 white-text">
+    <h3>Made By</h3>
+    <p>Mudit Somani, Sebin John, Pratik Mahajan, Vaibhav Oza</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -108,6 +120,7 @@
 <script>
   $(document).ready(function(){
     $('.collapsible').collapsible();
+    $('.materialboxed').materialbox();
   });
 </script>
 </body>
